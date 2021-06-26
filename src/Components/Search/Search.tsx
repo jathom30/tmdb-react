@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faTicketAlt, faTv, faUser } from '@fortawesome/free-solid-svg-icons'
 import './Search.scss'
-import { Text, Modal } from 'Components'
+import { Text, Modal, FlexBox, Spacer } from 'Components'
 import { useDebouncedCallback } from 'Hooks'
-import { getSearchMovie } from 'Requests'
-import { MovieType } from 'Types'
+import { getSearchMulti } from 'Requests'
+import { MovieType, MultiSearchType, TVType, PersonType } from 'Types'
 
 export const Search = ({
   onSelect,
@@ -22,7 +22,7 @@ export const Search = ({
         onClick={() => setIsActive(!isActive)}
       >
         <FontAwesomeIcon icon={faSearch} />
-        Search for a movie
+        Search for a movie, TV show, or actor
       </button>
 
       {isActive && (
@@ -42,12 +42,12 @@ const SearchModal = ({
   onSelect: (location: any) => void
   onClose: () => void
 }) => {
-  const [suggestions, setSuggestions] = useState<MovieType[]>()
+  const [suggestions, setSuggestions] = useState<MultiSearchType[]>()
   const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => inputRef.current?.focus(), [])
 
   const getLocationsDebounced = useDebouncedCallback(async (query: string) => {
-    const results = await getSearchMovie(query)
+    const results = await getSearchMulti(query)
     setSuggestions(results.data.results)
   }, 500)
 
@@ -57,7 +57,7 @@ const SearchModal = ({
         <div className="Search__search">
           <FontAwesomeIcon icon={faSearch} className="Search__icon" />
           <input
-            placeholder="Search for a movie"
+            placeholder="Movie, TV, Actor..."
             ref={inputRef}
             className="Search__input"
             type="text"
@@ -80,7 +80,15 @@ const SearchModal = ({
                     onClose()
                   }}
                 >
-                  {suggestion.title}
+                  {suggestion.media_type === 'movie' && (
+                    <MovieSearchResult movie={suggestion} />
+                  )}
+                  {suggestion.media_type === 'tv' && (
+                    <TVSearchResult tv={suggestion} />
+                  )}
+                  {suggestion.media_type === 'person' && (
+                    <PersonSearchResult person={suggestion} />
+                  )}
                 </button>
               </li>
             ))}
@@ -88,5 +96,41 @@ const SearchModal = ({
         )}
       </div>
     </Modal>
+  )
+}
+
+const MovieSearchResult: React.FC<{ movie: MovieType }> = ({ movie }) => {
+  return (
+    <FlexBox>
+      <FontAwesomeIcon icon={faTicketAlt} />
+      <Spacer width="0.5rem" />
+      <Text on="white" weight="bold">{movie.title}</Text>
+      <Spacer width="0.5rem" />
+      <Text on="white">{movie.release_date}</Text>
+    </FlexBox>
+  )
+}
+
+const TVSearchResult: React.FC<{ tv: TVType }> = ({ tv }) => {
+  return (
+    <FlexBox>
+      <FontAwesomeIcon icon={faTv} />
+      <Spacer width="0.5rem" />
+      <Text on="white" weight="bold">{tv.name}</Text>
+      <Spacer width="0.5rem" />
+      <Text on="white">{tv.first_air_date}</Text>
+    </FlexBox>
+  )
+}
+
+const PersonSearchResult: React.FC<{ person: PersonType }> = ({ person }) => {
+  return (
+    <FlexBox>
+      <FontAwesomeIcon icon={faUser} />
+      <Spacer width="0.5rem" />
+      <Text on="white" weight="bold">{person.name}</Text>
+      <Spacer width="0.5rem" />
+      <Text on="white">{person.known_for_department}</Text>
+    </FlexBox>
   )
 }
