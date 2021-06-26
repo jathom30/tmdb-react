@@ -1,6 +1,5 @@
-import { Text, Spacer, Button } from 'Components'
-import React, { useState } from 'react'
-import { getMovie } from 'Requests'
+import { Text, Spacer } from 'Components'
+import React from 'react'
 import { MovieType } from 'Types'
 import './MovieDisplay.scss'
 
@@ -20,8 +19,8 @@ export const MovieDisplay: React.FC<{ movie: MovieType }> = ({ movie }) => {
           src={`${posterPath}${movie.poster_path}`}
           alt="movie poster"
         />
-        <Text on="white" size="xxxl">{movie.title}</Text>
-        <Text on="white">{movie.release_date}</Text>
+        <Spacer />
+        <Text on="white">{movie.overview}</Text>
       </div>
     </div>
   )

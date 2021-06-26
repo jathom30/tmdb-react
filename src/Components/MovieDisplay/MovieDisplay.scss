@@ -8,7 +8,8 @@
   &__body {
     margin-top: -5rem;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     text-shadow: 0 0 5px white;
     padding: 2rem;
