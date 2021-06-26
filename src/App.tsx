@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { getLatestMovie } from 'Requests';
+import React from 'react'
+import './App.css'
+import './theme.css'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import routes from 'routes'
 
 function App() {
-  const handleClick = () => {
-    getLatestMovie().then((res) => {
-      console.log(res)
-    })
-  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <button onClick={handleClick}>log latest movies</button>
-      </header>
+      <Router>
+        <Switch>
+          {routes.map((route, i) => (
+            <Route
+              key={i}
+              exact={route.path === '/'}
+              path={route.path}
+              component={route.component}
+            />
+          ))}
+        </Switch>
+      </Router>
     </div>
   );
 }
 
-export default App;
+export default App

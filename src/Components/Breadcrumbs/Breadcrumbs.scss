@@ -1,0 +1,18 @@
+@import 'src/tokens';
+
+.Breadcrumbs {
+  display: flex;
+  &__section {
+    cursor: pointer;
+    text-decoration: none;
+    color: $color-primary-600;
+  }
+  &__separator {
+    margin: 0 1rem;
+  }
+}
+
+.Breadcrumbs__section--is-active {
+  color: $color-primary-600;
+  font-weight: $text-weight-bold;
+}

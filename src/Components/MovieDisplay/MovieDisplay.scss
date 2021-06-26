@@ -1,0 +1,20 @@
+.MovieDisplay {
+  position: relative;
+  &__backdrop {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__body {
+    margin-top: -5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    text-shadow: 0 0 5px white;
+    padding: 2rem;
+  }
+  &__poster {
+    min-width: 10rem;
+    max-width: 20rem;
+  }
+}
