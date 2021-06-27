@@ -22,7 +22,7 @@ export const Search = ({
         onClick={() => setIsActive(!isActive)}
       >
         <FontAwesomeIcon icon={faSearch} />
-        Search for a movie, TV show, or actor
+        Search for a movie, TV show, or person
       </button>
 
       {isActive && (
@@ -57,7 +57,7 @@ const SearchModal = ({
         <div className="Search__search">
           <FontAwesomeIcon icon={faSearch} className="Search__icon" />
           <input
-            placeholder="Movie, TV, Actor..."
+            placeholder="Movie, TV, Person..."
             ref={inputRef}
             className="Search__input"
             type="text"
